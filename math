@@ -1,0 +1,191 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using TMPro;
+
+public class probleremScript : MonoBehaviour
+{
+
+    public TextMeshProUGUI problem;
+
+    public TextMeshProUGUI answer;
+    public TextMeshProUGUI resultText;
+
+    public TextMeshProUGUI LifePointText;
+
+
+    string[] resultTextArray = new string[] {"Right!", "Great!"};
+
+
+int first = 0;
+int secon = 0;
+int last =0;
+
+int LifePoint = 3;
+
+string[] Symbol = new string[] {"+","-","X","/"};
+
+string[] Solve = new string[4]; 
+
+int result =0;
+
+private int RandValue = 0;
+
+private bool GoNext = true;
+private bool IsGameOver = false;
+
+    void setAllGameOver()
+    {
+
+        resultText.text = "GameOver!";
+        LifePointText.text = "GameOver!";
+        problem.text = "GameOver!";
+        answer.text = "GameOver!";
+        Application.Quit();
+
+    }
+
+
+
+
+
+    void setProblem()
+    {
+        first = Random.Range(0,50);
+
+        secon = Random.Range(0,2);
+
+        last = Random.Range(0,50);
+
+        if (secon == 0)
+        {
+            
+            result = first + last;
+        }
+
+
+        if (secon == 1)
+        {
+            
+            result = first - last;
+        }
+
+
+        if (secon == 2)
+        {
+            result = first * last;
+        }
+
+
+        
+
+        Solve[Random.Range(0, 3)] = result.ToString();
+
+        for (int i=0; i < Solve.Length; i ++)
+        {
+            if (Solve[i] != result.ToString()) {
+                
+                while (true)
+                {
+                    RandValue = Random.Range(0, 50);
+                    if (RandValue != result)
+                        break;
+                }
+                
+                 Solve[i] = RandValue.ToString();
+            }
+            
+        }
+
+        problem.text = first.ToString() + " " + Symbol[secon] + " " + last.ToString() + "= ?";
+
+        answer.text = Solve[0] + "      " + Solve[1] + "      " +  Solve[2] + "      " +  Solve[3];
+    }
+
+
+    // Start is called before the first frame update
+    void Start()
+    {
+
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+        if (LifePoint < 1)
+        {
+            setAllGameOver();
+            IsGameOver = true;
+        }
+
+        if (GoNext)
+        {
+            setProblem();
+            GoNext = false;
+        }
+
+
+
+
+        LifePointText.text = LifePoint.ToString();
+
+        Debug.Log(result);
+
+        if(Input.GetKeyDown(KeyCode.Alpha1))
+        {
+            Debug.Log(result);
+            if (Solve[0] == result.ToString())
+            {
+                resultText.text = resultTextArray[Random.Range(0,2)];
+                Solve[0] += "O";
+                GoNext = true;
+            } else {
+                resultText.text = "No!";
+                LifePoint--;
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha2))
+        {
+            Debug.Log(result);
+            if (Solve[1] == result.ToString())
+            {
+                resultText.text = resultTextArray[Random.Range(0,2)];
+                Solve[1] += "O";
+                GoNext = true;
+            } else {
+                resultText.text = "No!";
+                LifePoint--;
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha3))
+        {
+            Debug.Log(result);
+            if (Solve[2] == result.ToString())
+            {
+                resultText.text = resultTextArray[Random.Range(0,2)];
+                Solve[2] += "O";
+                GoNext = true;
+            } else {
+                resultText.text = "No!";
+                LifePoint--;
+            }
+        }
+
+        if(Input.GetKeyDown(KeyCode.Alpha4))
+        {
+            Debug.Log(result);
+            if (Solve[3] == result.ToString())
+            {
+                resultText.text = resultTextArray[Random.Range(0,2)];
+                Solve[3] += "O";
+                GoNext = true;
+            } else {
+                resultText.text = "No!";
+                LifePoint--;
+            }
+        }
+    }
+}
